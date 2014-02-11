@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Test AES</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="forge/md.js"></script>
+        <script src="forge/util.js"></script>
+        <script src="forge/sha1.js"></script>
+        <script src="forge/sha256.js"></script>
+        <script src="forge/prng.js"></script>
+        <script src="forge/random.js"></script>
+        <script src="forge/pki.js"></script>
+        <script src="forge/oids.js"></script>
+        <script src="forge/jsbn.js"></script>
+        <script src="forge/asn1.js"></script>
+        <script src="forge/rsa.js"></script>
+        <script src="forge/x509.js"></script>
+        <script src="forge/pem.js"></script>
+        <script src="forge/aes.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div id="inform">
+            <form>
+                Mode: 
+                <select id="enc_mode">
+                    <option value="ECB">ECB</option>
+                    <option value="CBC">CBC</option>
+                    <option value="CFB">CFB</option>
+                    <option value="OFB">OFB</option>
+                    <option value="CTR">CTR</option>
+                    <option value="OPENPGP">OPENPGP</option>
+                </select><br/>
+                Input Text: <input type="text" id="message" value="Some message to send"/><br/>
+            </form>
+            <br/>
+            <button type="button" id="testencbutton">Test Encryption</button>
+        </div>
+        <div id="Request">
+            Request:<br/>
+            <div>
+                Base64 Key:
+                <div id="b64_key"></div>
+                <br/>
+            </div>
+            <div>
+                Base64 IV:
+                <div id="b64_iv"></div>
+                <br/>
+            </div>
+            <div>
+                mode
+                <div id="req_mode"></div>
+                <br/>
+            </div>
+            <div>
+                Base64 Ciphertext:
+                <div id="b64_enc_txt"></div>
+                <br/>
+            </div>
+        </div>
+        <div id="Response">
+            Response:<br/>
+            <div>
+                Base64 Key:
+                <div id="resp_b64_key"></div>
+                <br/>
+            </div>
+            <div>
+                Base64 IV:
+                <div id="resp_b64_iv"></div>
+                <br/>
+            </div>
+            <div>
+                mode
+                <div id="resp_mode"></div>
+                <br/>
+            </div>
+            <div>
+                Base64 Ciphertext:
+                <div id="resp_b64_enc_txt"></div>
+                <br/>
+            </div>
+            <div>
+                Message from server
+                <div id="resp_txt"></div>
+                <br/>
+            </div>
+        </div>
+    </body>
+</html>
+
