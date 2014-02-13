@@ -15,7 +15,16 @@ function build_json_request(mode, txt) {
     var cipher = forge.aes.createEncryptionCipher(key, mode);
     cipher.start(iv);
     cipher.update(forge.util.createBuffer(txt));
-    cipher.finish();
+    if ((mode == "OFB") || (mode == "CFB")) {
+        console.log("Using Padding during encryption");
+        cipher.finish(function(blockSize, buffer) {
+            var padding = blockSize - (buffer.length() % blockSize);
+            buffer.fillWithByte(padding, padding);
+            return true;
+        });
+    } else {
+        cipher.finish();
+    }
    
     request.b64_encval = forge.util.encode64(cipher.output.bytes());
 
@@ -40,7 +49,19 @@ function handle_json_response(data, txtStatus, jqXHR) {
     var cipher = forge.aes.createDecryptionCipher(key, data.mode);
     cipher.start(iv);
     cipher.update(forge.util.createBuffer(ciphertxt));
-    cipher.finish();
+    if ((data.mode == "OFB") || (data.mode == "CFB")) {
+        console.log("Using Padding decryption");
+        cipher.finish(function(blockSize, buffer) {
+            var count = buffer.at(buffer.length() - 1);
+            if(count > (blockSize << 2)) {
+                  return false;
+            }
+            buffer.truncate(count);
+            return true;
+        });
+    } else {
+        cipher.finish();
+    }
    
     var response_txt = cipher.output.bytes();
 
